@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>results</title>
+</head>
+<body>
+   <h1> you see the result of the question {{ object.question_text }}</h1>
+   <ul>
+       {% for choice in object.choice_set.all %}
+            <li>
+                {{ choice.choice_text }} {{ choice.vote_tally }}  vote{{vote.vote_tally|pluralize}}
+            </li>
+       {%endfor%}
+   </ul>
+
+<a href="{% url 'polls:detailed' object.pk %}"> vote again ? </a>
+</body>
+</html>
