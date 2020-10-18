@@ -26,7 +26,7 @@ class QuestionsModelTests(TestCase):
 
 def add_new_question(question_text, days):
     time = timezone.now()+datetime.timedelta(days=days)
-    return Questions(question_text=question_text, puplished_date=time)
+    return Questions.objects.create(question_text=question_text, puplished_date=time)
 
 
 class QuestionIndexViewTest(TestCase):
@@ -42,7 +42,7 @@ class QuestionIndexViewTest(TestCase):
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
             response.context['latest_questions'],
-            ['<Question:past question>']
+            ['<Questions: past question>']
 
         )
 
@@ -59,7 +59,7 @@ class QuestionIndexViewTest(TestCase):
         add_new_question(question_text='past_question', days=-30)
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
-            response.context['latest_questions'], ['<Question:past_question>']
+            response.context['latest_questions'], ['<Questions: past_question>']
         )
 
     def test_two_past_question(self):
@@ -68,7 +68,7 @@ class QuestionIndexViewTest(TestCase):
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
             response.context['latest_questions'],
-            ['<Question:first_past_question>', '<Question:second_past_question>']
+            ['<Questions: first_past_question>', '<Questions: second_past_question>']
         )
 
 
